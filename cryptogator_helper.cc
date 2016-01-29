@@ -1,12 +1,13 @@
 #include "cryptogator_helper.hh"
 
+
 void gcrypt_init()
 {
     /* Version check should be the very first call because it
        makes sure that important subsystems are intialized. */
-    const char * version = gcry_check_version(GCRYPT_VERSION);
-    printf("%s vs %s \n", version, GCRYPT_VERSION);
-    if (!gcry_check_version (NULL)) // GCRYPT_VERSION
+    //const char * version = gcry_check_version(GCRYPT_VERSION);
+    //printf("%s vs %s \n", version, GCRYPT_VERSION);
+    if (!gcry_check_version (GCRYPT_VERSION)) // GCRYPT_VERSION
     {
         fprintf(stderr, "gcrypt library version mismatch");
         return;
