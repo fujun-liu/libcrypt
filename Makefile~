@@ -1,5 +1,5 @@
 LDFLAGS = -lgcrypt
-CXXFLAGS = -Wall -Wextra -g
+CXXFLAGS = -std=c++11 -Wall -Wextra -g
 OBJS = cryptogator_helper.o
 
 cryptogator: cryptogator_helper.o

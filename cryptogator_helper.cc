@@ -1,12 +1,4 @@
-#ifndef CRYPTO_GATOR_HELPER_H
-#define CRYPTO_GATOR_HELPER_H
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-
-#include <unistd.h>
-#include <gcrypt.h>
-
+#include "cryptogator_helper.hh"
 
 void gcrypt_init()
 {
@@ -48,5 +40,3 @@ void gcrypt_init()
     	fprintf(stderr, "gcrypt initialization failed \n");
     }
 }
-
-#endif

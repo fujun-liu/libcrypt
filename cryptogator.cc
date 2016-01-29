@@ -1,11 +1,5 @@
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-
-#include <unistd.h>
-#include <gcrypt.h>
 #include <time.h>
-#include "cryptogator_helper.h"
+#include "cryptogator_helper.hh"
 
 int main(int argc, char** argv){
 	if (argc != 2){
