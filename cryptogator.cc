@@ -4,6 +4,8 @@ int main(int argc, char** argv){
 		fprintf(stderr, "Usage: cryptogator inputfile \n");
 		exit(1);
 	}
-	run_AES(argv[1], 128, 5);
+	// AES algorithm
+	//run_AES(argv[1], 128, 5);
+	run_RSA(argv[1], 1024, 1);
 	return 0;
 }
