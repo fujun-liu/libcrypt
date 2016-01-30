@@ -5,7 +5,11 @@ int main(int argc, char** argv){
 		exit(1);
 	}
 	// AES algorithm
-	//run_AES(argv[1], 128, 5);
-	run_RSA(argv[1], 1024, 1);
+	//RunAES(argv[1], 128, 5);
+	//RunRSA(argv[1], 1024, 10);
+
+	RunHMAC(argv[1], GCRY_MAC_HMAC_MD5, 10);
+	RunHMAC(argv[1], GCRY_MAC_HMAC_SHA1, 10);
+	RunHMAC(argv[1], GCRY_MAC_HMAC_SHA256, 10);
 	return 0;
 }
