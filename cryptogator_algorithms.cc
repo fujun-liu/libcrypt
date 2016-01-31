@@ -26,16 +26,14 @@ void RunAES(char* filename, int keybits, int rounds){
 	else{
 		fprintf(stderr, "unknown AES algorithm\n");
 	}
-	// result file name
-	char ret_name[80];
-    sprintf(ret_name, "algo:%s%d.txt",  gcry_cipher_algo_name(algo), keybits);
+	
 
 	int keylen = keybits/8;
 	fseek(f, 0, SEEK_END);
 	long int filesz = ftell(f);
 	fseek(f, 0, SEEK_SET);
-	void* plaintext = calloc(1, filesz);
-	void* cipher = calloc(1, filesz);
+	void* plaintext = malloc(filesz);
+	void* cipher = malloc(filesz);
 	fread(plaintext, 1, filesz, f);
 	fclose(f);
 
@@ -61,7 +59,7 @@ void RunAES(char* filename, int keybits, int rounds){
 
 		// both key and iv are random numbers, so there are different in each iteration
 		gcry_randomize(key, keylen, GCRY_STRONG_RANDOM);
-	    gcry_randomize(iv, keylen, GCRY_STRONG_RANDOM);
+	    gcry_randomize(iv, blklen, GCRY_STRONG_RANDOM);
 	    
 		// creat cipher handle
 		err = gcry_cipher_open(&hde, algo, mode, 0);
@@ -138,7 +136,10 @@ void RunAES(char* filename, int keybits, int rounds){
 		gcry_cipher_close(hde);
 		gcry_cipher_close(hdd);
     }
-	
+
+	// result file name
+	char ret_name[80];
+    sprintf(ret_name, "algo:%s%d.txt",  gcry_cipher_algo_name(algo), keybits);
     FILE* fw = fopen(ret_name, "w");
     fprintf(fw, "encrpytion time (seconds):\n");
     for (int r = 0; r < rounds; ++ r){
