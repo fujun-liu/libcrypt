@@ -148,8 +148,8 @@ void RunAES(char* filename, int keybits, int rounds){
     for (int r = 0; r < rounds; ++ r){
     	fprintf(fw, "%.4f	", dtime[r]);
     }
-
     fclose(fw);
+	
 	free(key);
 	free(iv);
 	free(plaintext);
@@ -161,8 +161,8 @@ void RunAES(char* filename, int keybits, int rounds){
 
 void RunRSA(char* filename, int keybits, int rounds){
 	// maximum block size
-	int blklen = ((keybits - 384) / 8) + 37;
-	//int blklen = 64; 
+	//int blklen = ((keybits - 384) / 8) + 37;
+	int blklen = 128; 
 
 	FILE* f = fopen(filename, "rb");
 	fseek(f, 0, SEEK_END);
@@ -193,17 +193,16 @@ void RunRSA(char* filename, int keybits, int rounds){
     float* dtime = (float*)malloc(rounds*sizeof(float));
     
     gcry_sexp_t  pubk, privk;
-    /*
 	gcry_sexp_t rsa_keypair;
     rsa_keypair = GenerateRSAKeyPairs(keybits);
 	pubk = gcry_sexp_find_token(rsa_keypair, "public-key", 0);
-	privk = gcry_sexp_find_token(rsa_keypair, "private-key", 0);*/
-	err = gcry_sexp_sscan (&pubk, NULL, sample_public_key, strlen (sample_public_key))
+	privk = gcry_sexp_find_token(rsa_keypair, "private-key", 0);
+	/*err = gcry_sexp_sscan (&pubk, NULL, sample_public_key, strlen (sample_public_key))
 			| gcry_sexp_sscan (&privk, NULL, sample_private_key, strlen (sample_private_key));
 	if (err){
 		fprintf(stderr, "converting public/private key failed\n");
 		exit(1);
-	}
+	}*/
 
     for (int r = 0; r < rounds; ++ r){
     	// generate key pairs every time
@@ -213,7 +212,7 @@ void RunRSA(char* filename, int keybits, int rounds){
 
 		etime[r] = .0;
 		dtime[r] = .0;
-		printf("RSA is encrypting %d blocks (ECB mode)\n", nblocks);
+		printf("RSA%d is encrypting %d blocks (ECB mode)\n", keybits, nblocks);
 		clock_t t_start = clock();
 		for (int b = 0; b < nblocks; ++ b){
 		    /*This function creates an internal S-expression from the string template format 
@@ -235,7 +234,7 @@ void RunRSA(char* filename, int keybits, int rounds){
 		etime[r] = (float)(clock() - t_start)/CLOCKS_PER_SEC;
 
 		t_start = clock();
-		printf("RSA is decrypting %d blocks (ECB mode)\n", nblocks);
+		printf("RSA%d is decrypting %d blocks (ECB mode)\n", keybits, nblocks);
 		for (int b = 0; b < nblocks; ++ b){
 		       /* Decrypt the message. */
 		    gcry_sexp_t blk_decryption;
@@ -261,7 +260,7 @@ void RunRSA(char* filename, int keybits, int rounds){
     }
 	
 	//release resource
-	//gcry_sexp_release(rsa_keypair);
+	gcry_sexp_release(rsa_keypair);
 	gcry_sexp_release(pubk);
 	gcry_sexp_release(privk);
 
@@ -425,6 +424,7 @@ void RunSignature(char* filename, int algo, int rsa_keybits){
  	gcry_sexp_t pubk = gcry_sexp_find_token(rsa_keypair, "public-key", 0);
  	gcry_sexp_t privk = gcry_sexp_find_token(rsa_keypair, "private-key", 0);
  	
+
 	/*Convert the external representation of an integer stored 
 	in buffer with a length of buflen into a newly created MPI 
 	returned which will be stored at the address of r_mpi.*/
