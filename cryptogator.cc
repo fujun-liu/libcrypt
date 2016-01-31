@@ -4,12 +4,23 @@ int main(int argc, char** argv){
 		fprintf(stderr, "Usage: cryptogator inputfile \n");
 		exit(1);
 	}
-	// AES algorithm
-	//RunAES(argv[1], 128, 5);
-	//RunRSA(argv[1], 1024, 10);
 
-	RunHMAC(argv[1], GCRY_MAC_HMAC_MD5, 10);
-	RunHMAC(argv[1], GCRY_MAC_HMAC_SHA1, 10);
-	RunHMAC(argv[1], GCRY_MAC_HMAC_SHA256, 10);
+	gcrypt_init();
+	// AES128, 100 rounds
+	//RunAES(argv[1], 128, 10);
+	// AES256, 100 rounds
+	//RunAES(argv[1], 256, 100);
+	//RSA1024, 100 rounds
+	RunRSA(argv[1], 1024, 1);
+	//RSA4096, 100 rounds
+	//RunRSA(argv[1], 4096, 100);
+	// MAC MD5, 100 rounds
+	//RunHMAC(argv[1], GCRY_MD_MD5, 100);
+	// MAC SHA1, 100 rounds
+	//RunHMAC(argv[1], GCRY_MD_SHA1, 100);
+	// MAC SHA256, 100 rounds
+	//RunHMAC(argv[1], GCRY_MD_SHA256, 1);
+	// HMAC SHA-256 + RSA4096
+	//RunSignature(argv[1], GCRY_MD_SHA256, 4096);
 	return 0;
 }

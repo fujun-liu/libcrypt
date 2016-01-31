@@ -1,4 +1,0 @@
-encrpytion time (seconds):
-0.9430	0.7530	0.7538	0.7510	0.7535	
-decrpytion time (seconds):
-0.7398	0.7419	0.7402	0.7411	0.7510	
